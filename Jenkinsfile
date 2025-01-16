@@ -25,11 +25,12 @@ pipeline {
         }
         stage('Docker Push') {
             steps {
-                sh 'docker build -t ${IMAGE_NAME}:${COMMIT_HASH} .'
+                //sh 'docker build -t ${IMAGE_NAME}:${COMMIT_HASH} .'
+                sh 'mvn docker:build'
                 sh 'aws ecr get-login-password --region us-east-1 | docker login --username AWS --password-stdin 816069138092.dkr.ecr.us-east-1.amazonaws.com'
                 sh 'docker login -u AWS -p $(aws ecr get-login-password --region us-east-1) 816069138092.dkr.ecr.us-east-1.amazonaws.com'
-            	sh 'docker tag ${IMAGE_NAME}:latest ${IMAGE_NAME}:$COMMIT_HASH'
-		        // sh 'docker push ${IMAGE_NAME}:latest'
+            	sh 'docker tag ${IMAGE_NAME}:latest $IMAGE_NAME:$COMMIT_HASH'
+		        sh 'docker push ${IMAGE_NAME}:latest'
 		        sh 'docker push ${IMAGE_NAME}:$COMMIT_HASH'
             }
         }
