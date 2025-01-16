@@ -16,7 +16,6 @@ pipeline {
 		
         stage('Build Application') {
             steps {
-				 checkout scm
                 sh 'mvn clean package'
             }
         }
