@@ -8,10 +8,10 @@ pipeline {
         IMAGE_TAG = 'latest'
         LAMBDA_FUNCTION_NAME = 'jobportal-docker-test'
     }
-    tools {
+/*    tools {
         jdk 'JDK 17'
         maven 'Maven 3.9.9'
-    }
+    }*/
     stages {
         stage('Checkout Code') {
             steps {
@@ -37,8 +37,7 @@ pipeline {
         stage('Update Lambda Function') {
             steps {
                 sh '''
-                aws lambda update-function-code --function-name ${LAMBDA_FUNCTION_NAME} \
-                --image-uri ${IMAGE_NAME}:${COMMIT_HASH}
+                aws lambda update-function-code --function-name ${LAMBDA_FUNCTION_NAME} --image-uri ${IMAGE_NAME}:${COMMIT_HASH}
                 '''
             }
         }
