@@ -13,16 +13,14 @@ pipeline {
         maven 'Maven 3.9.9'
     }*/
     stages {
-        stage('Checkout Code') {
-            steps {
-                checkout scm
-            }
-        }
+		
         stage('Build Application') {
             steps {
+				 checkout scm
                 sh 'mvn clean package'
             }
         }
+        
         stage('Docker Push') {
             steps {
                 sh 'docker build -t ${IMAGE_NAME}:${COMMIT_HASH} .'
